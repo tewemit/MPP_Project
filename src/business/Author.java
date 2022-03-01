@@ -3,7 +3,7 @@ package business;
 public class Author {
     private String firstName;
     private String lastName;
-    private String credentials;
+    private String about;
     private String phone;
 
     public String getFirstName() {
