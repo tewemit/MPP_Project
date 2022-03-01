@@ -18,23 +18,4 @@ public class Author {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getCredentials() {
-        return credentials;
-    }
-
-    public void setCredentials(String credentials) {
-        this.credentials = credentials;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
 }
