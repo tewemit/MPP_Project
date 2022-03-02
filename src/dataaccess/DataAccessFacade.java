@@ -10,9 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import business.Book;
-import business.BookCopy;
 import business.LibraryMember;
-import dataaccess.DataAccessFacade.StorageType;
 
 
 public class DataAccessFacade implements DataAccess {
@@ -64,7 +62,7 @@ public class DataAccessFacade implements DataAccess {
 		
 	static void loadBookMap(List<Book> bookList) {
 		HashMap<String, Book> books = new HashMap<String, Book>();
-		bookList.forEach(book -> books.put(book.getIsbn(), book));
+		bookList.forEach(book -> books.put(book.getIsBn(), book));
 		saveToStorage(StorageType.BOOKS, books);
 	}
 	static void loadUserMap(List<User> userList) {

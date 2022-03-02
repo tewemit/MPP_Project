@@ -1,21 +1,28 @@
 package business;
 
-public class Author {
-    private String firstName;
-    private String lastName;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Author extends Person{
+
     private String about;
-    private String phone;
+    List<Book> books;
 
-    public String getFirstName() {
-        return firstName;
+    public Author( String firstName, String lastName, String phone, Address address, String credentials) {
+        super(firstName, lastName, phone, address);
+        this.about = credentials;
+        books=new ArrayList<Book>();
+
+    }
+    public void  addBook(Book book){
+       books.add(book) ;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public String about() {
+        return about;
     }
 
-    public String getLastName() {
-        return lastName;
+    public List<Book> getBooks() {
+        return books;
     }
-
 }
