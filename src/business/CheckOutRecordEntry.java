@@ -3,16 +3,19 @@ package business;
 import java.time.LocalDate;
 
 public class CheckOutRecordEntry {
-    private String id;
+    private String isBn;
     private LocalDate checkOutDate;
-    private LocalDate returnDate;
+    private LocalDate actualReturnedDate;
+    private BookCopy bookCopy;
+    private LocalDate dueDate;
+    private LocalDate actualReturnDate;
 
-    public String getId() {
-        return id;
+    public String getIsBn() {
+        return isBn;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIsBn(String isBn) {
+        this.isBn = isBn;
     }
 
     public LocalDate getCheckOutDate() {
@@ -23,20 +26,12 @@ public class CheckOutRecordEntry {
         this.checkOutDate = checkOutDate;
     }
 
-    public LocalDate getReturnDate() {
-        return returnDate;
+    public LocalDate getActualReturnedDate() {
+        return actualReturnedDate;
     }
 
-    public void setReturnDate(LocalDate returnDate) {
-        this.returnDate = returnDate;
-    }
-
-    public LocalDate getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(LocalDate dueDate) {
-        this.dueDate = dueDate;
+    public void setActualReturnedDate(LocalDate actualReturnedDate) {
+        this.actualReturnedDate = actualReturnedDate;
     }
 
     public BookCopy getBookCopy() {
@@ -47,6 +42,19 @@ public class CheckOutRecordEntry {
         this.bookCopy = bookCopy;
     }
 
-    private LocalDate dueDate;
-    private BookCopy bookCopy;
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public LocalDate getActualReturnDate() {
+        return actualReturnDate;
+    }
+
+    public void setActualReturnDate(LocalDate actualReturnDate) {
+        this.actualReturnDate = actualReturnDate;
+    }
 }

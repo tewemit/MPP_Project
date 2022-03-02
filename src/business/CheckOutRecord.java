@@ -3,16 +3,16 @@ package business;
 import java.util.List;
 
 public class CheckOutRecord {
-    private String id;
+    private String isBn;
     private String memberId;
     private List<CheckOutRecordEntry> checkOutRecordEntries;
 
-    public String getId() {
-        return id;
+    public String getIsBn() {
+        return isBn;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIsBn(String isBn) {
+        this.isBn = isBn;
     }
 
     public String getMemberId() {
@@ -23,13 +23,11 @@ public class CheckOutRecord {
         this.memberId = memberId;
     }
 
-    public List<CheckOutRecordEntry> getCheckOutEntries() {
-        return checkOutEntries;
+    public List<CheckOutRecordEntry> getCheckOutRecordEntries() {
+        return checkOutRecordEntries;
     }
 
-    public void setCheckOutEntries(List<CheckOutRecordEntry> checkOutEntries) {
-        this.checkOutEntries = checkOutEntries;
-    }
-
-    private List<CheckOutRecordEntry> checkOutEntries;
+   public void addCheckOutRecordEntry(CheckOutRecordEntry checkOutRecordEntry){
+       checkOutRecordEntries.add(checkOutRecordEntry);
+   }
 }

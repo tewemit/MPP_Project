@@ -5,12 +5,20 @@ public class BookCopy {
     private int copyNumber;
     boolean isAvailable;
 
-    public String getId() {
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
+    public String getIsBn() {
         return isBn;
     }
 
-    public void setId(String id) {
-        this.isBn = id;
+    public void setIsBn(String isBn) {
+        this.isBn = isBn;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
     }
 
     public int getCopyNumber() {
