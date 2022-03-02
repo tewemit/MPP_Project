@@ -8,7 +8,16 @@ public class CheckOutRecordEntry {
     private LocalDate actualReturnedDate;
     private BookCopy bookCopy;
     private LocalDate dueDate;
-    private LocalDate actualReturnDate;
+
+
+    public CheckOutRecordEntry(String isBn, LocalDate checkOutDate, LocalDate actualReturnedDate, BookCopy bookCopy, LocalDate dueDate) {
+        this.isBn = isBn;
+        this.checkOutDate = checkOutDate;
+        this.actualReturnedDate = actualReturnedDate;
+        this.bookCopy = bookCopy;
+        this.dueDate = dueDate;
+
+    }
 
     public String getIsBn() {
         return isBn;
@@ -50,11 +59,4 @@ public class CheckOutRecordEntry {
         this.dueDate = dueDate;
     }
 
-    public LocalDate getActualReturnDate() {
-        return actualReturnDate;
-    }
-
-    public void setActualReturnDate(LocalDate actualReturnDate) {
-        this.actualReturnDate = actualReturnDate;
-    }
 }

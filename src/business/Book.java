@@ -4,11 +4,23 @@ import java.util.List;
 
 public class Book {
 
-    private final String isBn;
-    private final String title;
-    private final List<Author> authors;
-    private final int maxCheckoutLength;
-    List<BookCopy> bookCopies;
+    private String isBn;
+    private String title;
+    private List<Author> authors;
+    private int maxCheckoutLength;
+    private List<BookCopy> bookCopies;
+
+    public Book() {
+    }
+
+    public Book(String isBn, String title, int maxCheckoutLength, List<Author> authors) {
+
+        this.isBn = isBn;
+        this.title = title;
+        this.authors = authors;
+        this.maxCheckoutLength = maxCheckoutLength;
+    }
+
 
     public String getIsBn() {
         return isBn;
@@ -30,12 +42,15 @@ public class Book {
         return maxCheckoutLength;
     }
 
-    public Book(String isBn, String title, int maxCheckoutLength, List<Author> authors) {
 
-        this.isBn = isBn;
-        this.title = title;
-        this.authors = authors;
-        this.maxCheckoutLength = maxCheckoutLength;
+    public BookCopy checkAvailable(String isBn) {
+        BookCopy bookCopy=new BookCopy();
+        int copyNumber = -1;
+        for (BookCopy c : bookCopies) {
+            if (c.isAvailable == true)
+                return c;
+        }
+        return null;
     }
 
     public void addCopy() {
