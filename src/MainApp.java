@@ -1,3 +1,5 @@
+import Controller.AuthController;
+
 import java.util.Scanner;
 
 public class MainApp {
@@ -14,7 +16,8 @@ public class MainApp {
         System.out.print("Password: ");
         password = in.next();
         //TODO check login
-
+        AuthController auth = new AuthController();
+        auth.getUserByUsername(username, password);
         System.out.println("Please choose an option below. Enter 9 to exit.");
         System.out.println("1. Add library member");
         System.out.println("2. Checkout book");
