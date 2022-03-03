@@ -1,8 +1,10 @@
 package business;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class CheckOutRecordEntry {
+public class CheckOutRecordEntry implements Serializable {
+    private static final long serilialVersionUID = 5147665048973262145L;
     private String isBn;
     private LocalDate checkOutDate;
     private LocalDate actualReturnedDate;
@@ -43,13 +45,9 @@ public class CheckOutRecordEntry {
         this.actualReturnedDate = actualReturnedDate;
     }
 
-    public BookCopy getBookCopy() {
-        return bookCopy;
-    }
 
-    public void setBookCopy(BookCopy bookCopy) {
-        this.bookCopy = bookCopy;
-    }
+
+
 
     public LocalDate getDueDate() {
         return dueDate;
@@ -58,5 +56,14 @@ public class CheckOutRecordEntry {
     public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
+
+    public BookCopy getBookCopy() {
+        return bookCopy;
+    }
+
+    public void setBookCopy(BookCopy bookCopy) {
+        this.bookCopy = bookCopy;
+    }
+
 
 }
