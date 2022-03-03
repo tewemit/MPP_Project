@@ -1,8 +1,10 @@
 package business;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CheckOutRecord {
+public class CheckOutRecord implements Serializable {
+    private static final long serilialVersionUID = 5147264048973262145L;
     private String id;
     private String memberId;
     private List<CheckOutRecordEntry> checkOutRecordEntries;

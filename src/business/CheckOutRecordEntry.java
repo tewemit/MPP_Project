@@ -1,8 +1,10 @@
 package business;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class CheckOutRecordEntry {
+public class CheckOutRecordEntry implements Serializable {
+    private static final long serilialVersionUID = 5147665048973262145L;
     private String id;
     private LocalDate checkOutDate;
     private LocalDate returnDate;

@@ -31,12 +31,20 @@ public class DataAccessFacade implements DataAccess {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public  HashMap<String,Book> readBooksMap() {
+	public  HashMap<String, Book> readBooksMap() {
 		//Returns a Map with name/value pairs being
 		//   isbn -> Book
 		return (HashMap<String,Book>) readFromStorage(StorageType.BOOKS);
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	public  void saveNewBook(Book book) {
+		HashMap<String, Book> books = readBooksMap();
+		String isbn = book.getIsBn();
+		books.put(isbn, book);
+		saveToStorage(StorageType.BOOKS, books);
+	}
+
 	@SuppressWarnings("unchecked")
 	public HashMap<String, LibraryMember> readMemberMap() {
 		//Returns a Map with name/value pairs being

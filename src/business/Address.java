@@ -1,6 +1,9 @@
 package business;
 
-public class Address {
+import java.io.Serializable;
+
+public class Address implements Serializable {
+    private static final long serilialVersionUID = 5147265048973262145L;
     private String street;
     private String zip;
     private String city;

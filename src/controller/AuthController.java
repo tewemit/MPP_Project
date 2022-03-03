@@ -1,14 +1,18 @@
-package Controller;
+package controller;
 
 import dataaccess.DataAccessFacade;
 import dataaccess.User;
+import dataaccess.Auth;
+
 
 public class AuthController {
-    public User getUserByUsername(String username, String password){
+    public Auth logIn(String username, String password){
         DataAccessFacade accessFacade = new DataAccessFacade();
+        accessFacade.readBooksMap();
+        //        .get("23-11451");
         User user =  accessFacade.readUserMap().get(username);
-        if (user !=null && user.getId() == username && user.getPassword() == password) {
-            return user;
+        if (user != null && user.getId().equals(username) && user.getPassword().equals(password)) {
+            return user.getAuthorization();
         }
         else {
             System.out.println("Invalid username or password");
