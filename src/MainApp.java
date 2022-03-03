@@ -10,16 +10,27 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MainApp {
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
     public static  void main(String [] args){
 
 // write your code here
+
         Auth userRole;
         AuthController auth = new AuthController();
         Scanner in = new Scanner(System.in);
         String username, password;
-        System.out.println("========== (`_´)=======");
+        System.out.println(ANSI_BLUE + "========== "+ ANSI_YELLOW + " (`_´) " + ANSI_BLUE + " =======" + ANSI_RESET);
         System.out.println("Welcome to MPP Library!");
-        System.out.println("User Login ");
+        System.out.println(ANSI_BLUE + "=========================" + ANSI_RESET);
+        System.out.println(ANSI_GREEN + "User Login " + ANSI_RESET);
         System.out.print("UserId: ");
         username = in.next();
         System.out.print("Password: ");
@@ -42,8 +53,9 @@ public class MainApp {
         System.out.println("Please choose an option below. Enter 9 to exit.");
         System.out.println("\t1. Checkout book");
         System.out.println("\t2. Add book copy");
-        System.out.println("\t3. Add book");
+
         if (userRole != null && (userRole.name().equals("ADMIN") || userRole.name().equals("BOTH") )) {
+            System.out.println("\t3. Add book");
             System.out.println("\t4. Add library member");
         }
         System.out.println("\t9. Quit");
@@ -65,21 +77,24 @@ public class MainApp {
                 case 2 :
                     System.out.println("Showing add book copy window");
                     break;
-                case 3: // add book
-                    System.out.println("Enter new book details");
-                    String isbn, title;
-                    int maxCheckoutLength;
-                    List<Author> authorList = new ArrayList<>();
-                    Author author = new Author();
-                    System.out.print("ISBN: ");
-                    isbn = in.next();
-                    System.out.print("Title: ");
-                    title = in.next();
-                    System.out.print("MaxCheckoutLength (days): ");
-                    maxCheckoutLength = Integer.parseInt(in.next());
-                   // System.out.println("Authors: ");
+                case 3 : // add book
+                    if (userRole.name().equals("ADMIN") || userRole.name().equals("BOTH")) {
+                        System.out.println("Enter new book details");
+                        String isbn, title;
+                        int maxCheckoutLength;
+                        List<Author> authorList = new ArrayList<>();
+                        Author author = new Author();
+                        System.out.print("ISBN: ");
+                        isbn = in.next();
+                        System.out.print("Title: ");
+                        title = in.next();
+                        System.out.print("MaxCheckoutLength (days): ");
+                        maxCheckoutLength = Integer.parseInt(in.next());
+                        // System.out.println("Authors: ");
 
-                    SystemController.addBook(isbn,title,maxCheckoutLength,new ArrayList<>());
+                        SystemController.addBook(isbn,title,maxCheckoutLength,new ArrayList<>());
+                    }
+
                     break;
                 case 4 :
                         System.out.println("======Adding new library member =====");
@@ -114,8 +129,8 @@ public class MainApp {
             System.out.println("Please choose an option below. Enter 9 to exit.");
             System.out.println("\t1. Checkout book");
             System.out.println("\t2. Add book copy");
-            System.out.println("\t3. Add book");
             if (userRole != null && (userRole.name().equals("ADMIN") || userRole.name().equals("BOTH") )) {
+                System.out.println("\t3. Add book");
                 System.out.println("\t4. Add library member");
             }
             System.out.println("\t9. Quit");
