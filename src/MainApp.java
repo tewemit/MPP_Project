@@ -89,9 +89,8 @@ public class MainApp {
                         isBn = "";
                         System.out.print("ISBN: ");
                         isBn = in.next();
-                        System.out.println("Enter member Id:");
-                        memberId= in.next();
-                        SystemController.addBookCopy(memberId, isBn);
+
+                        SystemController.addBookCopy( isBn);
                     }
                     else
                         System.out.println("You are not authorized to add book copy.");
