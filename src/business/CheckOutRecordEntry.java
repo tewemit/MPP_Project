@@ -13,8 +13,8 @@ public class CheckOutRecordEntry implements Serializable {
     @Override
     public String toString() {
         return
-                "isBn='" + isBn + '\'' +
-                "\n checkOutDate=" + checkOutDate +
+                "\n  isBn='" + isBn + '\'' +
+                "\n  checkOutDate=" + checkOutDate +
                 "\n  actualReturnedDate=" + actualReturnedDate +
                 "\n  bookCopy=" + bookCopy.toString() +
                 "\n  dueDate=" + dueDate

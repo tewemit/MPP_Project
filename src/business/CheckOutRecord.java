@@ -36,7 +36,7 @@ public CheckOutRecord(){
     public String toString() {
         return
 
-                "\n memberId='" + memberId + '\'' +
-                "\n checkOutRecordEntries=" + checkOutRecordEntries.toString() ;
+                "\n  memberId='" + memberId + '\'' +
+                "\n  checkOutRecordEntries=" + checkOutRecordEntries;
     }
 }

@@ -35,9 +35,9 @@ public class BookCopy implements Serializable {
     @Override
     public String toString() {
         return "" +
-                "isBn='" + isBn + '\'' +
-                "\n copyNumber=" + copyNumber +
-                "\n isAvailable=" + isAvailable
+                "\n   isBn='" + isBn + '\'' +
+                "\n   copyNumber=" + copyNumber +
+                "\n   isAvailable=" + isAvailable
                 ;
     }
 }

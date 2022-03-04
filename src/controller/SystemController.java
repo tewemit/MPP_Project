@@ -79,15 +79,15 @@ public class SystemController {
 
                     System.out.printf(ANSI_GREEN +"Congratulations check out operation  done successfully " + "\n"
                             + checkOutRecordEntry+ANSI_RESET);
-                    System.out.println("all checout records for this Member " + memberId + "\n are :- " + checkOutRecord);
+                 //   System.out.println("all checout records for this Member " + memberId + "\n are :- " + checkOutRecord);
                 }
 
             } else {
-                System.out.println("Sorry : The Book is not Found ");
+                System.out.println(ANSI_RED +"Sorry : The Book is not Found \n "+ ANSI_RESET);
             }
 
         } catch (Exception e) {
-            System.out.println("Sorry Something Wrong happened " + e.getMessage());
+            System.out.println(ANSI_RED +"Sorry Something Wrong happened " + e.getMessage()+"\n "+ ANSI_RESET);
         }
 
     }
@@ -95,7 +95,7 @@ public class SystemController {
     public static void addBook(String isbn, String title, int maxCheckoutLength, List<Author> authors) {
         Book book = new Book(isbn, title, maxCheckoutLength, authors);
         dataAccess.saveNewBook(book);
-        System.out.println("Booked added successfully.");
+        System.out.printf(ANSI_GREEN +"Booked added successfully.\n"+ANSI_RESET);
         searchAndShowBook(book.getIsBn());
 
     }
@@ -134,7 +134,7 @@ public class SystemController {
         HashMap<String, LibraryMember> members = dataAccess.readMemberMap();
         LibraryMember member = dataAccess.readMemberMap().get(memberId);
         if (member == null) {
-            System.out.println("Member not found. Please try again");
+            System.out.println(ANSI_RED +"Member not found. Please try again\n "+ ANSI_RESET);
             return false;
         }
         else {
@@ -152,7 +152,8 @@ public class SystemController {
     public static void showMemberCheckoutRecords(String memberId) {
         CheckOutRecord checkOutRecord = dataAccess.readMemberMap().get(memberId).getCheckOutRecord();
         if (checkOutRecord == null) {
-            System.out.println("No checkout record found for member: " + memberId);
+            System.out.println(ANSI_RED +"No checkout record found for member:" + memberId+"\n "+ ANSI_RESET);
+
             return;
         }
         checkOutRecord.getCheckOutRecordEntries().forEach(ckrEntry -> {
@@ -164,7 +165,7 @@ public class SystemController {
     }
 
 
-    public static Book searchBookByIsBn(String isBn) {
+    public static Book searchBookByIsBn(String isBn) throws SystemExceptions {
         Book book = new Book();
         try {
             DataAccess dataAccess = new DataAccessFacade();
@@ -173,9 +174,38 @@ public class SystemController {
 
         } catch (
                 Exception e) {
-            System.out.println("Sorry Something Wrong happened " + e.getMessage());
+           throw new  SystemExceptions (new RuntimeException("Sorry Something Wrong happened "));
+
+
         }
         return book;
+    }
+
+    public static void printAllBooks() {
+        HashMap<String, Book>  books = dataAccess.readBooksMap();
+        Object[] bookIsBns=books.keySet().toArray();
+
+        try {
+            if (books.size()<1)
+                System.out.println(ANSI_RED +"Sorry : There is no books found \n "+ ANSI_RESET);
+            else
+            {
+                for(int i=0;i<bookIsBns.length;i++)
+
+                {
+                    System.out.println(books.get(bookIsBns[i]));
+                    System.out.println("-------------------\n");
+
+                }
+            }
+
+        } catch (
+                Exception e) {
+            System.out.println(ANSI_RED +"Sorry Something Wrong happened " + e.getMessage()+"\n"+ ANSI_RESET);
+
+
+        }
+
     }
 
     public static LibraryMember searchForMember(String memberId) {
@@ -189,7 +219,8 @@ public class SystemController {
 
         } catch (
                 Exception e) {
-            System.out.println("Sorry Something Wrong happened " + e.getMessage());
+            System.out.println(ANSI_RED +"Sorry Something Wrong happened " + e.getMessage()+"\n"+ ANSI_RESET);
+
         }
         return member;
     }
@@ -204,11 +235,12 @@ public class SystemController {
                 }
 
              else {
-                System.out.println("Sorry : The Member Id  is not Found ");
+
+                System.out.println(ANSI_RED +"Sorry : The Member Id  is not Found\n "+ ANSI_RESET);
             }
 
         } catch (Exception e) {
-            System.out.println("Sorry Something Wrong happened " + e.getMessage());
+            System.out.println(ANSI_RED +"Sorry Something Wrong happened " + e.getMessage()+"\n"+ ANSI_RESET);
         }
 
     }
@@ -223,10 +255,12 @@ public class SystemController {
 
 
             } else {
-                System.out.println("Sorry : The Book is not Found ");
+
+
+                System.out.println(ANSI_RED +"Sorry : The Book is not Found \n "+ ANSI_RESET);
             }
         } catch (Exception e) {
-            System.out.println("Sorry Something Wrong happened " + e.getMessage());
+            System.out.println(ANSI_RED +"Sorry Something Wrong happened " + e.getMessage()+"\n"+ ANSI_RESET);
         }
     }
 }

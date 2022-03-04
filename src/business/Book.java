@@ -46,11 +46,11 @@ public class Book implements Serializable {
     @Override
     public String toString() {
         return
-                "isBn='" + isBn + '\'' +
-                "\n title='" + title + '\'' +
-                "\n authors=" + authors.toString() +
-                "\n maxCheckoutLength=" + maxCheckoutLength +
-                "\n bookCopies=" + bookCopies.toString()
+                "\n  isBn='" + isBn + '\'' +
+                "\n  title='" + title + '\'' +
+                "\n  authors=" + authors.toString() +
+                "\n  maxCheckoutLength=" + maxCheckoutLength +
+                "\n  bookCopies=" + bookCopies.toString()
                 ;
     }
 
