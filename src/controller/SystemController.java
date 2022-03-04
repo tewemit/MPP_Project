@@ -72,7 +72,7 @@ public class SystemController {
                     book.getBookCopies().get(book.getBookCopies().indexOf(copyBook)).setAvailable(false);
 
 
-
+                    dataAccess.saveNewBook(book);
                     member.setCheckOutRecord(checkOutRecord);
                     dataAccess.saveNewMember(member);
 
@@ -213,7 +213,7 @@ public class SystemController {
 
     }
 
-    public static void addBookCopy(String memberId, String isBn) {
+    public static void addBookCopy( String isBn) {
         try {
             Book book = searchBookByIsBn(isBn);
             if (book != null) {
