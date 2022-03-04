@@ -12,8 +12,14 @@ public class Book implements Serializable {
     private int maxCheckoutLength;
     List<BookCopy> bookCopies;
 
+
+    public Book() {
+    }
     public String getIsBn() {
         return isBn;
+    }
+    public List<BookCopy> getBookCopies() {
+        return bookCopies;
     }
 
     public String getTitle() {
@@ -28,26 +34,42 @@ public class Book implements Serializable {
         return maxCheckoutLength;
     }
 
-    public List<BookCopy> getBookCopies() {
-        return bookCopies;
-    }
+    public Book(String isBn, String title, int maxCheckoutLength, List<Author> authors) {
 
-    public Book(String isbn, String title, int maxCheckoutLength, List<Author> authors) {
-
-        this.isBn = isbn;
+        this.isBn = isBn;
         this.title = title;
         this.authors = authors;
         this.maxCheckoutLength = maxCheckoutLength;
         this.bookCopies = new ArrayList<>();
     }
 
+    @Override
+    public String toString() {
+        return
+                "isBn='" + isBn + '\'' +
+                "\n title='" + title + '\'' +
+                "\n authors=" + authors.toString() +
+                "\n maxCheckoutLength=" + maxCheckoutLength +
+                "\n bookCopies=" + bookCopies.toString()
+                ;
+    }
+
+    public BookCopy checkAvailable(String isBn) {
+
+
+        for (BookCopy c : bookCopies) {
+            if (c.isAvailable == true)
+                return c;
+        }
+        return null;
+    }
+
     public void addCopy() {
         BookCopy copyBook = new BookCopy();
-            copyBook.setCopyNumber(bookCopies.size()+1);
 
-            copyBook.setCopyNumber(1);
-
-        copyBook.setId(isBn);
+        copyBook.setCopyNumber(bookCopies.size()+1);
+        copyBook.setIsBn(this.isBn);
+        copyBook.setAvailable(true);
         bookCopies.add(copyBook);
 
     }

@@ -7,6 +7,9 @@ import dataaccess.Auth;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import controller.AuthController;
+
 import java.util.Scanner;
 
 public class MainApp {
@@ -19,8 +22,9 @@ public class MainApp {
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
-    public static  void main(String [] args){
 
+    public static void main(String[] args) {
+        AuthController authController = new AuthController();
 // write your code here
 
         Auth userRole;
@@ -36,11 +40,11 @@ public class MainApp {
         System.out.print("Password: ");
         password = in.next();
         //TODO check login
-        while (true){
-            userRole = auth.logIn(username, password);
-            if ( userRole!= null){
+        while (true) {
+            userRole = SystemController.logIn(username, password);
+            if (userRole != null) {
                 break;
-            };
+            }
             System.out.println("Please try again.");
             System.out.print("UserId: ");
             username = in.next();
@@ -59,6 +63,7 @@ public class MainApp {
             System.out.println("\t4. Add library member");
             System.out.println("\t5. Search book by ISBN");
             System.out.println("\t6. Search library member");
+            System.out.println("\t7. Print Check Out Record For Member Id");
         }
         System.out.println("\t9. Quit");
         int input = 0;
@@ -74,15 +79,20 @@ public class MainApp {
             }
             switch (input){
                 case 1 :
-                    if (userRole.name().equals("ADMIN") || userRole.name().equals("BOTH")) {
-                        System.out.println("Showing checkout window");
-                    }
-                    else
-                        System.out.println("You are not authorized to checkout book.");
+                    System.out.println("Please Enter  book details");
+                    String isBn;
+                    System.out.print("ISBN: ");
+                    isBn = in.next();
+                    SystemController.checkoutBook(username, isBn);
                     break;
                 case 2 :
                     if (userRole.name().equals("ADMIN") || userRole.name().equals("BOTH")) {
-                        System.out.println("Showing add book copy window");
+                        System.out.println("Please Enter  book details");
+                        isBn = "";
+                        System.out.print("ISBN: ");
+
+                        isBn = in.next();
+                        SystemController.addBookCopy(username, isBn);
                     }
                     else
                         System.out.println("You are not authorized to add book copy.");
@@ -145,6 +155,7 @@ public class MainApp {
                     if (userRole.name().equals("ADMIN") || userRole.name().equals("BOTH")) {
                         System.out.println("Enter ISBN to search:");
                         SystemController.searchAndShowBook(in.next());
+
                     }
                     else
                     System.out.println("You are not authorized to search books with ISBN.");
@@ -162,6 +173,8 @@ public class MainApp {
                     else
                     System.out.println("You are not authorized to search books with ISBN.");
                     break;
+                case 7:
+                    SystemController.printCheckOutRecord(username);
                 default :
                     System.out.println("Invalid choice. Try again or enter 9 to exit.");
             }
@@ -176,6 +189,7 @@ public class MainApp {
                 System.out.println("\t4. Add library member");
                 System.out.println("\t5. Search book by ISBN");
                 System.out.println("\t6. Search library member");
+                System.out.println("\t7. Print Check Out Record For Member Id");
             }
             System.out.println("\t9. Quit");
         }

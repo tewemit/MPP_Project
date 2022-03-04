@@ -5,18 +5,40 @@ import java.time.LocalDate;
 
 public class CheckOutRecordEntry implements Serializable {
     private static final long serilialVersionUID = 5147665048973262145L;
-    private String id;
+    private String isBn;
     private LocalDate checkOutDate;
-    private LocalDate returnDate;
-    private LocalDate dueDate;
+    private LocalDate actualReturnedDate;
     private BookCopy bookCopy;
 
-    public String getId() {
-        return id;
+    @Override
+    public String toString() {
+        return
+                "isBn='" + isBn + '\'' +
+                "\n checkOutDate=" + checkOutDate +
+                "\n  actualReturnedDate=" + actualReturnedDate +
+                "\n  bookCopy=" + bookCopy.toString() +
+                "\n  dueDate=" + dueDate
+               ;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    private LocalDate dueDate;
+
+
+    public CheckOutRecordEntry(String isBn, LocalDate checkOutDate, LocalDate actualReturnedDate, BookCopy bookCopy, LocalDate dueDate) {
+        this.isBn = isBn;
+        this.checkOutDate = checkOutDate;
+        this.actualReturnedDate = actualReturnedDate;
+        this.bookCopy = bookCopy;
+        this.dueDate = dueDate;
+
+    }
+
+    public String getIsBn() {
+        return isBn;
+    }
+
+    public void setIsBn(String isBn) {
+        this.isBn = isBn;
     }
 
     public LocalDate getCheckOutDate() {
@@ -27,12 +49,12 @@ public class CheckOutRecordEntry implements Serializable {
         this.checkOutDate = checkOutDate;
     }
 
-    public LocalDate getReturnDate() {
-        return returnDate;
+    public LocalDate getActualReturnedDate() {
+        return actualReturnedDate;
     }
 
-    public void setReturnDate(LocalDate returnDate) {
-        this.returnDate = returnDate;
+    public void setActualReturnedDate(LocalDate actualReturnedDate) {
+        this.actualReturnedDate = actualReturnedDate;
     }
 
     public LocalDate getDueDate() {

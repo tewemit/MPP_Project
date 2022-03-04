@@ -8,12 +8,20 @@ public class BookCopy implements Serializable {
     private int copyNumber;
     boolean isAvailable;
 
-    public String getId() {
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
+    public String getIsBn() {
         return isBn;
     }
 
-    public void setId(String id) {
-        this.isBn = id;
+    public void setIsBn(String isBn) {
+        this.isBn = isBn;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
     }
 
     public int getCopyNumber() {
@@ -24,7 +32,12 @@ public class BookCopy implements Serializable {
         this.copyNumber = copyNumber;
     }
 
-    public String getIsBn() {
-        return isBn;
+    @Override
+    public String toString() {
+        return "" +
+                "isBn='" + isBn + '\'' +
+                "\n copyNumber=" + copyNumber +
+                "\n isAvailable=" + isAvailable
+                ;
     }
 }
