@@ -24,5 +24,7 @@ public class BookCopy implements Serializable {
         this.copyNumber = copyNumber;
     }
 
-
+    public String getIsBn() {
+        return isBn;
+    }
 }

@@ -6,14 +6,13 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 
-import business.Book;
-import business.LibraryMember;
+import business.*;
 
 
 public class DataAccessFacade implements DataAccess {
-	
+
 	enum StorageType {
-		BOOKS, MEMBERS, USERS;
+		BOOKS, MEMBERS, USERS, CHECKOUTRECORD;
 	}
 
 	public static final String OUTPUT_DIR = new File("src/dataaccess/storage").getAbsolutePath();

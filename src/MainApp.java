@@ -57,6 +57,8 @@ public class MainApp {
         if (userRole != null && (userRole.name().equals("ADMIN") || userRole.name().equals("BOTH") )) {
             System.out.println("\t3. Add book");
             System.out.println("\t4. Add library member");
+            System.out.println("\t5. Search book by ISBN");
+            System.out.println("\t6. Search library member");
         }
         System.out.println("\t9. Quit");
         int input = 0;
@@ -72,10 +74,18 @@ public class MainApp {
             }
             switch (input){
                 case 1 :
-                    System.out.println("Showing checkout window");
+                    if (userRole.name().equals("ADMIN") || userRole.name().equals("BOTH")) {
+                        System.out.println("Showing checkout window");
+                    }
+                    else
+                        System.out.println("You are not authorized to checkout book.");
                     break;
                 case 2 :
-                    System.out.println("Showing add book copy window");
+                    if (userRole.name().equals("ADMIN") || userRole.name().equals("BOTH")) {
+                        System.out.println("Showing add book copy window");
+                    }
+                    else
+                        System.out.println("You are not authorized to add book copy.");
                     break;
                 case 3 : // add book
                     if (userRole.name().equals("ADMIN") || userRole.name().equals("BOTH")) {
@@ -89,14 +99,22 @@ public class MainApp {
                         System.out.print("Title: ");
                         title = in.next();
                         System.out.print("MaxCheckoutLength (days): ");
-                        maxCheckoutLength = Integer.parseInt(in.next());
+                        try {
+                            maxCheckoutLength = Integer.parseInt(in.next());
+                        } catch (NumberFormatException e) {
+                            System.out.println(ANSI_RED +"Checkout length must be numeric. Type again:" + ANSI_RESET);
+                            System.out.print("MaxCheckoutLength (days): ");
+                            maxCheckoutLength = Integer.parseInt(in.next());
+                        }
                         // System.out.println("Authors: ");
-
                         SystemController.addBook(isbn,title,maxCheckoutLength,new ArrayList<>());
                     }
+                    else
+                        System.out.println("You are not authorized to add book.");
 
                     break;
                 case 4 :
+                    if (userRole.name().equals("ADMIN") || userRole.name().equals("BOTH")) {
                         System.out.println("======Adding new library member =====");
                         System.out.println("Please fill in the following details. ");
                         String memberId, firstName, lastName, city, state, street, zip, telephone;
@@ -104,7 +122,7 @@ public class MainApp {
                         memberId = in.next();
                         System.out.print("FirstName: ");
                         firstName = in.next();
-                        System.out.println("LastName: ");
+                        System.out.print("LastName: ");
                         lastName = in.next();
                         System.out.print("Street: ");
                         street = in.next();
@@ -117,9 +135,33 @@ public class MainApp {
                         System.out.print("telephone: ");
                         telephone = in.next();
                         int totalMembers = SystemController.addLibraryMember(memberId, firstName, lastName, street, city, state, zip, telephone);
-                        System.out.printf("Registration successful. You are one of %s user", totalMembers);
+                        System.out.println("----------------------------------------------------");
+                        System.out.printf(ANSI_GREEN + "Registration successful. You are one of %s user \n", totalMembers + "(s)" +ANSI_RESET);
+                    }
+                    else
+                        System.out.println("You are not authorized to add member.");
                     break;
+                case 5:
+                    if (userRole.name().equals("ADMIN") || userRole.name().equals("BOTH")) {
+                        System.out.println("Enter ISBN to search:");
+                        SystemController.searchAndShowBook(in.next());
+                    }
+                    else
+                    System.out.println("You are not authorized to search books with ISBN.");
+                    break;
+                case 6:
+                    if (userRole.name().equals("ADMIN") || userRole.name().equals("BOTH")) {
+                        System.out.println("Enter member Id:");
+                        String memberId = in.next();
+                        if(SystemController.searchMemberById(memberId)){
+                            // show checkout records
+                            SystemController.showMemberCheckoutRecords(memberId);
+                        }
 
+                    }
+                    else
+                    System.out.println("You are not authorized to search books with ISBN.");
+                    break;
                 default :
                     System.out.println("Invalid choice. Try again or enter 9 to exit.");
             }
@@ -132,6 +174,8 @@ public class MainApp {
             if (userRole != null && (userRole.name().equals("ADMIN") || userRole.name().equals("BOTH") )) {
                 System.out.println("\t3. Add book");
                 System.out.println("\t4. Add library member");
+                System.out.println("\t5. Search book by ISBN");
+                System.out.println("\t6. Search library member");
             }
             System.out.println("\t9. Quit");
         }

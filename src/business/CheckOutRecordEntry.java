@@ -8,6 +8,8 @@ public class CheckOutRecordEntry implements Serializable {
     private String id;
     private LocalDate checkOutDate;
     private LocalDate returnDate;
+    private LocalDate dueDate;
+    private BookCopy bookCopy;
 
     public String getId() {
         return id;
@@ -49,6 +51,5 @@ public class CheckOutRecordEntry implements Serializable {
         this.bookCopy = bookCopy;
     }
 
-    private LocalDate dueDate;
-    private BookCopy bookCopy;
+
 }
