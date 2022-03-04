@@ -13,6 +13,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class SystemController {
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
     private static final DataAccessFacade dataAccess = new DataAccessFacade();
 
     public static Auth logIn(String username, String password) {
@@ -68,8 +77,8 @@ public class SystemController {
                     dataAccess.saveNewMember(member);
 
 
-                    System.out.println("Congratulations check out operation  done successfully " + "\n"
-                            + checkOutRecordEntry);
+                    System.out.printf(ANSI_GREEN +"Congratulations check out operation  done successfully " + "\n"
+                            + checkOutRecordEntry+ANSI_RESET);
                     System.out.println("all checout records for this Member " + memberId + "\n are :- " + checkOutRecord);
                 }
 
@@ -174,6 +183,8 @@ public class SystemController {
         try {
             DataAccess dataAccess = new DataAccessFacade();
 
+            HashMap<String, LibraryMember> mems = dataAccess.readMemberMap();
+
             member = dataAccess.readMemberMap().get(memberId);
 
         } catch (
@@ -208,7 +219,7 @@ public class SystemController {
             if (book != null) {
                 book.addCopy();
                 dataAccess.saveNewBook(book);
-                System.out.println("Congratulations add copy operation  done successfully " + "\n now the book details are :- " + book);
+                System.out.printf(ANSI_GREEN +"Congratulations add copy operation  done successfully " + "\n now the book details are :- " + book+ANSI_RESET);
 
 
             } else {

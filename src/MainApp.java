@@ -1,5 +1,5 @@
 import business.Author;
-import controller.AuthController;
+
 import controller.SystemController;
 import dataaccess.Auth;
 
@@ -19,11 +19,11 @@ public class MainApp {
     public static final String ANSI_WHITE = "\u001B[37m";
 
     public static void main(String[] args) {
-        AuthController authController = new AuthController();
+
 // write your code here
 
         Auth userRole;
-        AuthController auth = new AuthController();
+
         Scanner in = new Scanner(System.in);
         String username, password;
         System.out.println(ANSI_BLUE + "========== "+ ANSI_YELLOW + " (`_´) " + ANSI_BLUE + " =======" + ANSI_RESET);
@@ -78,16 +78,20 @@ public class MainApp {
                     String isBn;
                     System.out.print("ISBN: ");
                     isBn = in.next();
-                    SystemController.checkoutBook(username, isBn);
+                    System.out.println("Enter member Id:");
+                    String memberId ;
+                    memberId= in.next();
+                    SystemController.checkoutBook(memberId, isBn);
                     break;
                 case 2 :
                     if (userRole.name().equals("ADMIN") || userRole.name().equals("BOTH")) {
                         System.out.println("Please Enter  book details");
                         isBn = "";
                         System.out.print("ISBN: ");
-
                         isBn = in.next();
-                        SystemController.addBookCopy(username, isBn);
+                        System.out.println("Enter member Id:");
+                        memberId= in.next();
+                        SystemController.addBookCopy(memberId, isBn);
                     }
                     else
                         System.out.println("You are not authorized to add book copy.");
@@ -122,7 +126,7 @@ public class MainApp {
                     if (userRole.name().equals("ADMIN") || userRole.name().equals("BOTH")) {
                         System.out.println("======Adding new library member =====");
                         System.out.println("Please fill in the following details. ");
-                        String memberId, firstName, lastName, city, state, street, zip, telephone;
+                        String  firstName, lastName, city, state, street, zip, telephone;
                         System.out.print("MemberId: ");
                         memberId = in.next();
                         System.out.print("FirstName: ");
@@ -158,7 +162,7 @@ public class MainApp {
                 case 6:
                     if (userRole.name().equals("ADMIN") || userRole.name().equals("BOTH")) {
                         System.out.println("Enter member Id:");
-                        String memberId = in.next();
+                         memberId = in.next();
                         if(SystemController.searchMemberById(memberId)){
                             // show checkout records
                             SystemController.showMemberCheckoutRecords(memberId);
@@ -169,7 +173,9 @@ public class MainApp {
                     System.out.println("You are not authorized to search books with ISBN.");
                     break;
                 case 7:
-                    SystemController.printCheckOutRecord(username);
+                    System.out.println("Enter member Id:");
+                    memberId= in.next();
+                    SystemController.printCheckOutRecord(memberId);
                 default :
                     System.out.println("Invalid choice. Try again or enter 9 to exit.");
             }
