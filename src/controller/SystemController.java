@@ -98,19 +98,19 @@ public class SystemController {
         System.out.println("================||Book details for " + isbn + " ||================" );
         System.out.println("ISBN \t\t CopyNo \t\t Title \t\t CheckoutDate \t\t DueDate \t\t CheckedOutBy");
         System.out.println("---- \t\t ------------ \t\t -------");
-        System.out.println("\n**" + book.getIsBn() + "\t\t** Title: " + book.getTitle());a
+        System.out.println("\n**" + book.getIsBn() + "\t\t** Title: " + book.getTitle());
         List<CheckOutRecord> checkOutRecords = dataAccess.readMemberMap().values()
                 .stream().map(LibraryMember::getCheckOutRecord).collect(Collectors.toList());
 
         book.getBookCopies().forEach(bookCopy -> {
 
-            CheckOutRecordEntry checkOutRecordEntries = (CheckOutRecordEntry) checkOutRecords.stream().map(CheckOutRecord::getCheckOutEntries)
+            CheckOutRecordEntry checkOutRecordEntries = (CheckOutRecordEntry) checkOutRecords.stream().map(CheckOutRecord::getCheckOutRecordEntries)
                     .map(checkOutRecordEntries1 -> checkOutRecordEntries1.stream().filter(cf -> cf.getBookCopy() == bookCopy))
                     .map(checkOutRecordEntryStream -> checkOutRecordEntryStream.
                             anyMatch(checkOutRecordEntry -> checkOutRecordEntry.getBookCopy() == bookCopy ));
 
              System.out.println(bookCopy.getIsBn() + "\t\t" + bookCopy.getCopyNumber() + "\t\t" +book.getTitle()
-             + "\t\t" +checkOutRecords.stream().map(CheckOutRecord::getCheckOutEntries)
+             + "\t\t" +checkOutRecords.stream().map(CheckOutRecord::getCheckOutRecordEntries)
                      .map(checkOutRecordEntries1 -> checkOutRecordEntries1.stream().filter(cf -> cf.getBookCopy() == bookCopy))
                      .map(checkOutRecordEntryStream -> checkOutRecordEntryStream.
                              anyMatch(checkOutRecordEntry -> checkOutRecordEntry.getBookCopy() == bookCopy )));
@@ -146,7 +146,7 @@ public class SystemController {
             System.out.println("No checkout record found for member: " + memberId);
             return;
         }
-        checkOutRecord.getCheckOutEntries().forEach(ckrEntry -> {
+        checkOutRecord.getCheckOutRecordEntries().forEach(ckrEntry -> {
             System.out.println("ISBN \t\t CheckoutDate \t\t DueDate");
             System.out.println("---- \t\t ------------ \t\t -------");
             System.out.println("|"+ ckrEntry.getBookCopy().getIsBn() + "| \t\t" +

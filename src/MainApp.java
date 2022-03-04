@@ -1,15 +1,10 @@
 import business.Author;
-import business.Book;
-import business.LibraryMember;
 import controller.AuthController;
 import controller.SystemController;
 import dataaccess.Auth;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import controller.AuthController;
-
 import java.util.Scanner;
 
 public class MainApp {
