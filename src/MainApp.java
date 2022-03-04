@@ -7,6 +7,9 @@ import dataaccess.Auth;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import controller.AuthController;
+
 import java.util.Scanner;
 
 public class MainApp {
@@ -19,15 +22,16 @@ public class MainApp {
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
-    public static  void main(String [] args){
 
+    public static void main(String[] args) {
+        AuthController authController = new AuthController();
 // write your code here
 
         Auth userRole;
         AuthController auth = new AuthController();
         Scanner in = new Scanner(System.in);
         String username, password;
-        System.out.println(ANSI_BLUE + "========== "+ ANSI_YELLOW + " (`_´) " + ANSI_BLUE + " =======" + ANSI_RESET);
+        System.out.println(ANSI_BLUE + "========== " + ANSI_YELLOW + " (`_´) " + ANSI_BLUE + " =======" + ANSI_RESET);
         System.out.println("Welcome to MPP Library!");
         System.out.println(ANSI_BLUE + "=========================" + ANSI_RESET);
         System.out.println(ANSI_GREEN + "User Login " + ANSI_RESET);
@@ -36,11 +40,11 @@ public class MainApp {
         System.out.print("Password: ");
         password = in.next();
         //TODO check login
-        while (true){
-            userRole = auth.logIn(username, password);
-            if ( userRole!= null){
+        while (true) {
+            userRole = SystemController.logIn(username, password);
+            if (userRole != null) {
                 break;
-            };
+            }
             System.out.println("Please try again.");
             System.out.print("UserId: ");
             username = in.next();
@@ -54,7 +58,7 @@ public class MainApp {
         System.out.println("\t1. Checkout book");
         System.out.println("\t2. Add book copy");
 
-        if (userRole != null && (userRole.name().equals("ADMIN") || userRole.name().equals("BOTH") )) {
+        if (userRole != null && (userRole.name().equals("ADMIN") || userRole.name().equals("BOTH"))) {
             System.out.println("\t3. Add book");
             System.out.println("\t4. Add library member");
         }
@@ -70,14 +74,27 @@ public class MainApp {
                 System.out.println("Thanks you for vising our library. Bye!");
                 break;
             }
-            switch (input){
-                case 1 :
-                    System.out.println("Showing checkout window");
+            switch (input) {
+                case 1:
+                    System.out.println("Please Enter  book details");
+                    String isBn;
+                    System.out.print("ISBN: ");
+                    isBn = in.next();
+                    SystemController.checkoutBook(username, isBn);
+
+                    // System.out.println("Showing checkout window");
                     break;
-                case 2 :
-                    System.out.println("Showing add book copy window");
+                case 2:
+                    if (userRole.name().equals("ADMIN") || userRole.name().equals("BOTH")) {
+                        System.out.println("Please Enter  book details");
+                        isBn = "";
+                        System.out.print("ISBN: ");
+
+                        isBn = in.next();
+                        SystemController.addBookCopy(username, isBn);
+                    }
                     break;
-                case 3 : // add book
+                case 3: // add book
                     if (userRole.name().equals("ADMIN") || userRole.name().equals("BOTH")) {
                         System.out.println("Enter new book details");
                         String isbn, title;
@@ -92,35 +109,39 @@ public class MainApp {
                         maxCheckoutLength = Integer.parseInt(in.next());
                         // System.out.println("Authors: ");
 
-                        SystemController.addBook(isbn,title,maxCheckoutLength,new ArrayList<>());
+                        SystemController.addBook(isbn, title, maxCheckoutLength, new ArrayList<>());
                     }
 
                     break;
-                case 4 :
-                        System.out.println("======Adding new library member =====");
-                        System.out.println("Please fill in the following details. ");
-                        String memberId, firstName, lastName, city, state, street, zip, telephone;
-                        System.out.print("MemberId: ");
-                        memberId = in.next();
-                        System.out.print("FirstName: ");
-                        firstName = in.next();
-                        System.out.println("LastName: ");
-                        lastName = in.next();
-                        System.out.print("Street: ");
-                        street = in.next();
-                        System.out.print("City: ");
-                        city = in.next();
-                        System.out.print("State: ");
-                        state = in.next();
-                        System.out.print("zip: ");
-                        zip = in.next();
-                        System.out.print("telephone: ");
-                        telephone = in.next();
-                        int totalMembers = SystemController.addLibraryMember(memberId, firstName, lastName, street, city, state, zip, telephone);
-                        System.out.printf("Registration successful. You are one of %s user", totalMembers);
+                case 4:
+                    System.out.println("======Adding new library member =====");
+                    System.out.println("Please fill in the following details. ");
+                    String memberId, firstName, lastName, city, state, street, zip, telephone;
+                    System.out.print("MemberId: ");
+                    memberId = in.next();
+                    System.out.print("FirstName: ");
+                    firstName = in.next();
+                    System.out.println("LastName: ");
+                    lastName = in.next();
+                    System.out.print("Street: ");
+                    street = in.next();
+                    System.out.print("City: ");
+                    city = in.next();
+                    System.out.print("State: ");
+                    state = in.next();
+                    System.out.print("zip: ");
+                    zip = in.next();
+                    System.out.print("telephone: ");
+                    telephone = in.next();
+                    int totalMembers = SystemController.addLibraryMember(memberId, firstName, lastName, street, city, state, zip, telephone);
+                    System.out.printf("Registration successful. You are one of %s user", totalMembers);
                     break;
+                case 5:
+                    SystemController.printCheckOutRecord(username);
 
-                default :
+                    // System.out.println("Showing checkout window");
+                    break;
+                default:
                     System.out.println("Invalid choice. Try again or enter 9 to exit.");
             }
             System.out.println("----------------------------------------------------");
@@ -129,10 +150,12 @@ public class MainApp {
             System.out.println("Please choose an option below. Enter 9 to exit.");
             System.out.println("\t1. Checkout book");
             System.out.println("\t2. Add book copy");
-            if (userRole != null && (userRole.name().equals("ADMIN") || userRole.name().equals("BOTH") )) {
+            if (userRole != null && (userRole.name().equals("ADMIN") || userRole.name().equals("BOTH"))) {
                 System.out.println("\t3. Add book");
                 System.out.println("\t4. Add library member");
+
             }
+            System.out.println("\t5. Print Check Out Record For Member Id");
             System.out.println("\t9. Quit");
         }
 

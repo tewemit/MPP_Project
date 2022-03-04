@@ -32,5 +32,12 @@ public class BookCopy implements Serializable {
         this.copyNumber = copyNumber;
     }
 
-
+    @Override
+    public String toString() {
+        return "" +
+                "isBn='" + isBn + '\'' +
+                "\n copyNumber=" + copyNumber +
+                "\n isAvailable=" + isAvailable
+                ;
+    }
 }

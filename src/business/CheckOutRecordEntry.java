@@ -9,6 +9,18 @@ public class CheckOutRecordEntry implements Serializable {
     private LocalDate checkOutDate;
     private LocalDate actualReturnedDate;
     private BookCopy bookCopy;
+
+    @Override
+    public String toString() {
+        return
+                "isBn='" + isBn + '\'' +
+                "\n checkOutDate=" + checkOutDate +
+                "\n  actualReturnedDate=" + actualReturnedDate +
+                "\n  bookCopy=" + bookCopy.toString() +
+                "\n  dueDate=" + dueDate
+               ;
+    }
+
     private LocalDate dueDate;
 
 

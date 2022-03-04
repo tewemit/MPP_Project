@@ -1,21 +1,20 @@
 package business;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CheckOutRecord implements Serializable {
     private static final long serilialVersionUID = 5147264048973262145L;
-    private String isBn;
+
     private String memberId;
-    private List<CheckOutRecordEntry> checkOutRecordEntries;
+    private final List<CheckOutRecordEntry> checkOutRecordEntries;
 
-    public String getIsBn() {
-        return isBn;
-    }
 
-    public void setIsBn(String isBn) {
-        this.isBn = isBn;
-    }
+public CheckOutRecord(){
+    checkOutRecordEntries=new ArrayList<>();
+}
+
 
     public String getMemberId() {
         return memberId;
@@ -32,4 +31,12 @@ public class CheckOutRecord implements Serializable {
    public void addCheckOutRecordEntry(CheckOutRecordEntry checkOutRecordEntry){
        checkOutRecordEntries.add(checkOutRecordEntry);
    }
+
+    @Override
+    public String toString() {
+        return
+
+                "\n memberId='" + memberId + '\'' +
+                "\n checkOutRecordEntries=" + checkOutRecordEntries.toString() ;
+    }
 }

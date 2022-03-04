@@ -11,6 +11,8 @@ public class Book implements Serializable {
     private List<Author> authors;
     private int maxCheckoutLength;
     List<BookCopy> bookCopies;
+
+
     public Book() {
     }
     public String getIsBn() {
@@ -32,7 +34,7 @@ public class Book implements Serializable {
         return maxCheckoutLength;
     }
 
-    public Book(String isb, String title, int maxCheckoutLength, List<Author> authors) {
+    public Book(String isBn, String title, int maxCheckoutLength, List<Author> authors) {
 
         this.isBn = isBn;
         this.title = title;
@@ -40,15 +42,28 @@ public class Book implements Serializable {
         this.maxCheckoutLength = maxCheckoutLength;
         this.bookCopies = new ArrayList<>();
     }
+
+    @Override
+    public String toString() {
+        return
+                "isBn='" + isBn + '\'' +
+                "\n title='" + title + '\'' +
+                "\n authors=" + authors.toString() +
+                "\n maxCheckoutLength=" + maxCheckoutLength +
+                "\n bookCopies=" + bookCopies.toString()
+                ;
+    }
+
     public BookCopy checkAvailable(String isBn) {
-        BookCopy bookCopy=new BookCopy();
-        int copyNumber = -1;
+
+
         for (BookCopy c : bookCopies) {
             if (c.isAvailable == true)
                 return c;
         }
         return null;
     }
+
     public void addCopy() {
         BookCopy copyBook = new BookCopy();
         

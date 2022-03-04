@@ -1,22 +1,18 @@
 package controller;
 
+import business.BookCopy;
+import business.CheckOutRecord;
+import business.CheckOutRecordEntry;
+import dataaccess.DataAccess;
+import dataaccess.Auth;
 import dataaccess.DataAccessFacade;
 import dataaccess.User;
-import dataaccess.Auth;
+import business.Book;
 
+import java.time.LocalDate;
+import java.util.HashMap;
 
 public class AuthController {
-    public Auth logIn(String username, String password){
-        DataAccessFacade accessFacade = new DataAccessFacade();
-        accessFacade.readBooksMap();
-        //        .get("23-11451");
-        User user =  accessFacade.readUserMap().get(username);
-        if (user != null && user.getId().equals(username) && user.getPassword().equals(password)) {
-            return user.getAuthorization();
-        }
-        else {
-            System.out.println("Invalid username or password");
-            return null;
-        }
-    }
+
+
 }
