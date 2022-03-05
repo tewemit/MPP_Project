@@ -85,7 +85,13 @@ public class Book implements Serializable {
             stringBuilder.append("No book found with ISBN:" + isbn + "\n");
             return stringBuilder.toString();
         }
-        stringBuilder.append("===========================||Book details for " + isbn + " ||======================================\n" );
+        stringBuilder.append("\n====== Book meta data");
+        stringBuilder.append("\n*ISBN: " + book.getIsBn() );
+        stringBuilder.append("\n*Title: " + book.getTitle() );
+        stringBuilder.append("\n*MaxCheckoutLength: " + book.getMaxCheckoutLength() );
+        stringBuilder.append("\n* Number of copies" + book.getBookCopies().size() );
+        stringBuilder.append("\n*Authors: \t" + book.getAuthors().toString() );
+        stringBuilder.append("\n===========================||Checkout details for " + isbn + " ||======================================\n" );
         stringBuilder.append("ISBN \t|\t CopyNo \t|\t Title \t|\t\t\t CheckoutDate \t|\t DueDate \t|\t CheckedOutBy \t|\t OverDue(Yes/No)\n");
         stringBuilder.append("---- \t|\t ------- \t|\t------ \t|\t\t\t------------ \t|\t ------- \t|\t ------------\t|\t ------------\n");
         List<BookCopy> copies = book.getBookCopies();

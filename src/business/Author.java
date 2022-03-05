@@ -23,7 +23,11 @@ public class Author extends Person implements Serializable {
     @Override
     public String toString() {
         return
-                "\n   about='" + about + '\'';
+                "\n   firstName='" + getFirstName() +
+                "\n   lastName='" + getLastName() +
+                "\n   phone='" + getPhone() +
+                "\n   about='" + about +
+                "\n   address='" + getAddress() + '\'';
     }
 
     public String getAbout() {

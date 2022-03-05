@@ -116,35 +116,6 @@ public class SystemController {
 
     public static void searchAndShowBook(String isbn) {
         System.out.println(Book.searchAndShowBook(isbn));
-        /*
-        Book book = dataAccess.readBooksMap().get(isbn);
-        if (book == null) {
-            System.out.println("No book found with ISBN: " + isbn);
-            return;
-        }
-        System.out.println(ANSI_GREEN + "===========================||Book details for " + isbn + " ||======================================" + ANSI_RESET);
-        System.out.println("ISBN \t|\t CopyNo \t|\t Title \t|\t\t\t CheckoutDate \t|\t DueDate \t|\t CheckedOutBy \t|\t OverDue(Yes/No)");
-        System.out.println("---- \t|\t ------- \t|\t------ \t|\t\t\t------------ \t|\t ------- \t|\t ------------\t|\t ------------");
-        List<BookCopy> copies = book.getBookCopies();
-        List<CheckOutRecordEntry> entries = CheckOutRecord.getCheckoutEntriesByIsbn(book.getIsBn());
-
-        for (BookCopy copy : copies) {
-            entries.forEach(checkOutRecordEntry -> {
-                String memberId = "";
-                if (CheckOutRecord.getWhoCheckedOutACopy(book.getIsBn(), copy.getCopyNumber()) != null) {
-                    memberId = CheckOutRecord.getWhoCheckedOutACopy(book.getIsBn(), copy.getCopyNumber());
-                }
-                if (checkOutRecordEntry.getBookCopy().getCopyNumber() == copy.getCopyNumber()) {
-                    boolean isOverdue = (checkOutRecordEntry.getDueDate().isBefore(LocalDate.now()) && !copy.getAvailable());
-                    System.out.println(copy.getIsBn() + "\t\t| \t" + copy.getCopyNumber() +
-                            "\t\t\t| \t" + book.getTitle() +
-                            "\t\t| \t" + checkOutRecordEntry.getCheckOutDate() + "\t\t| \t" + checkOutRecordEntry.getDueDate()
-                            + "\t\t| \t\t" + memberId + "\t\t| \t\t" + (isOverdue?"Yes":"No" ));
-                }
-            });
-        }
-
-         */
 
     }
 
@@ -311,6 +282,10 @@ public class SystemController {
                 dataAccess.saveNewBook(book);
                 System.out.printf(ANSI_GREEN + "Congratulations add copy operation  done successfully " + "\n " +
                         "now the book details are :- " + book + ANSI_RESET);
+                System.out.println("====== Book meta data");
+                System.out.println("*ISBN: " + book.getIsBn() );
+                System.out.println("*Title: " + book.getTitle() );
+                System.out.println("MaxCheckoutDays: " + book.getMaxCheckoutLength() );
 
             } else {
                 System.out.println(ANSI_RED + "Sorry : The Book is not Found \n " + ANSI_RESET);
