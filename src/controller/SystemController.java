@@ -58,7 +58,6 @@ public class SystemController {
 
             if (member == null) {
 
-
                 System.out.println(ANSI_RED + "Sorry : The Member Id  is not Found\n " + ANSI_RESET);
             }
             else {
