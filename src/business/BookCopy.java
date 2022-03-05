@@ -3,14 +3,10 @@ package business;
 import java.io.Serializable;
 
 public class BookCopy implements Serializable {
-    private static final long   serialVersionUID = 5137265048973262145L;
+    private static final long serialVersionUID = 5137265048973262145L;
+    boolean isAvailable;
     private String isBn;
     private int copyNumber;
-    boolean isAvailable;
-
-    public void setAvailable(boolean available) {
-        isAvailable = available;
-    }
 
     public String getIsBn() {
         return isBn;
@@ -28,7 +24,7 @@ public class BookCopy implements Serializable {
         return copyNumber;
     }
 
-     void setCopyNumber(int copyNumber) {
+    void setCopyNumber(int copyNumber) {
         this.copyNumber = copyNumber;
     }
 
@@ -43,5 +39,9 @@ public class BookCopy implements Serializable {
 
     public boolean getAvailable() {
         return this.isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
     }
 }

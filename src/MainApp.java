@@ -1,10 +1,10 @@
 import business.Address;
 import business.Author;
-
 import business.Book;
 import business.LibraryMember;
 import controller.SystemController;
 import dataaccess.Auth;
+import exceptions.SystemExceptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class MainApp {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SystemExceptions {
 
 // write your code here
 
@@ -66,7 +66,7 @@ public class MainApp {
         System.out.println("\t5. Search book by ISBN");
         System.out.println("\t6. Search library member");
         System.out.println("\t7. Print Check Out Record For Member Id");
-        System.out.println("\t8. Return All Books ");
+        System.out.println("\t8. List all books ");
         System.out.println("\t9. Return All Members ");
         System.out.println("\t0. Quit");
         int input = 0;
@@ -135,13 +135,13 @@ public class MainApp {
                                 }
 
 
-                        }
-                        // add author
-                        System.out.println("Please enter the author details. ");
-                        String firstName, lastName, city, state, street, zip, about, anotherAuthor = "yes";
-                        int telephone=-1;
+                            }
+                            // add author
+                            System.out.println("Please enter the author details. ");
+                            String firstName, lastName, city, state, street, zip, about, anotherAuthor = "yes";
+                            int telephone = -1;
 
-                        while (anotherAuthor.equalsIgnoreCase("YES")) {
+                            while (anotherAuthor.equalsIgnoreCase("YES")) {
 
                                 System.out.print("FirstName: ");
                                 firstName = in.next();
@@ -159,9 +159,9 @@ public class MainApp {
                                 while (in.hasNext()) {
                                     try {
                                         telephone = Integer.parseInt(in.next());
-                                        String str=String.valueOf(telephone);
-                                        int l=String.valueOf(telephone).length();
-                                        if (l>=8 &&l<=10) {
+                                        String str = String.valueOf(telephone);
+                                        int l = String.valueOf(telephone).length();
+                                        if (l >= 8 && l <= 10) {
                                             break;
                                         } else {
                                             System.out.println(ANSI_RED + "Sorry telephone  should from 8 to 10 digits  Type again: \" " + ANSI_RESET);
@@ -224,9 +224,9 @@ public class MainApp {
                                 try {
 
                                     telephone = Integer.parseInt(in.next());
-                                    String str=String.valueOf(telephone);
-                                    int l=String.valueOf(telephone).length();
-                                    if (l>=8 &&l<=10) {
+                                    String str = String.valueOf(telephone);
+                                    int l = String.valueOf(telephone).length();
+                                    if (l >= 8 && l <= 10) {
                                         break;
                                     } else {
                                         System.out.println(ANSI_RED + "Sorry telephone  should from 8 to 10 digits  Type again: \" " + ANSI_RESET);
@@ -239,9 +239,7 @@ public class MainApp {
 
 
                             }
-                            int totalMembers = SystemController.addLibraryMember(memberId, firstName, lastName, street, city, state, zip, String.valueOf(telephone));
-                            //  System.out.println("----------------------------------------------------");
-                            //   System.out.printf(ANSI_GREEN + "Registration successful. You are one of %s user \n", totalMembers + "(s)" + ANSI_RESET);
+                            SystemController.addLibraryMember(memberId, firstName, lastName, street, city, state, zip, String.valueOf(telephone));
                         }
                     } else System.out.println("You are not authorized to add member.");
                     break;
@@ -258,7 +256,7 @@ public class MainApp {
                         memberId = in.next();
                         if (SystemController.searchMemberById(memberId)) {
                             // show checkout records
-                            SystemController.showMemberCheckoutRecords(memberId);
+                            System.out.println(SystemController.showMemberCheckoutRecords(memberId));
                         }
 
                     } else System.out.println("You are not authorized to search books with ISBN.");
@@ -266,7 +264,8 @@ public class MainApp {
                 case 7://Print CheckOut Record
                     System.out.println("Enter member Id:");
                     memberId = in.next();
-                    SystemController.printCheckOutRecord(memberId);
+                    System.out.println(SystemController.showMemberCheckoutRecords(memberId));
+                    // SystemController.printCheckOutRecord(memberId);
                     break;
                 case 8://Print All Books
                     SystemController.printAllBooks();
@@ -289,7 +288,7 @@ public class MainApp {
                 System.out.println("\t5. Search book by ISBN");
                 System.out.println("\t6. Search library member");
                 System.out.println("\t7. Print Check Out Record For Member Id");
-                System.out.println("\t8. Return All Books ");
+                System.out.println("\t8. List all books ");
                 System.out.println("\t9. Return All Members ");
             }
             System.out.println("\t0. Quit");

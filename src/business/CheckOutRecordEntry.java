@@ -5,27 +5,13 @@ import java.time.LocalDate;
 
 public class CheckOutRecordEntry implements Serializable {
     private static final long serialVersionUID = 5147665048973262145L;
-    private String isBn;
     private LocalDate checkOutDate;
+    private LocalDate dueDate;
     private LocalDate actualReturnedDate;
     private BookCopy bookCopy;
 
-    @Override
-    public String toString() {
-        return
-                "\n  isBn='" + isBn + '\'' +
-                "\n  checkOutDate=" + checkOutDate +
-                "\n  actualReturnedDate=" + actualReturnedDate +
-                "\n  bookCopy=" + bookCopy.toString() +
-                "\n  dueDate=" + dueDate
-               ;
-    }
 
-    private LocalDate dueDate;
-
-
-    public CheckOutRecordEntry(String isBn, LocalDate checkOutDate, LocalDate actualReturnedDate, BookCopy bookCopy, LocalDate dueDate) {
-        this.isBn = isBn;
+    public CheckOutRecordEntry(LocalDate checkOutDate, LocalDate actualReturnedDate, BookCopy bookCopy, LocalDate dueDate) {
         this.checkOutDate = checkOutDate;
         this.actualReturnedDate = actualReturnedDate;
         this.bookCopy = bookCopy;
@@ -33,12 +19,14 @@ public class CheckOutRecordEntry implements Serializable {
 
     }
 
-    public String getIsBn() {
-        return isBn;
-    }
-
-    public void setIsBn(String isBn) {
-        this.isBn = isBn;
+    @Override
+    public String toString() {
+        return
+                "\n  checkOutDate=" + checkOutDate +
+                        "\n  actualReturnedDate=" + actualReturnedDate +
+                        "\n  bookCopy=" + bookCopy.toString() +
+                        "\n  dueDate=" + dueDate
+                ;
     }
 
     public LocalDate getCheckOutDate() {

@@ -20,10 +20,10 @@ public class Address implements Serializable {
     @Override
     public String toString() {
         return
-                 "\n   street='" + street + '\'' +
+                "\n   street='" + street + '\'' +
                         "\n   zip='" + zip + '\'' +
                         "\n   city='" + city + '\'' +
-                        "\n   state='" + state + '\'' ;
+                        "\n   state='" + state + '\'';
 
     }
 

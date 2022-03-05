@@ -7,9 +7,11 @@ public class Person implements Serializable {
     private String firstName;
     private String lastName;
     private String phone;
-    private Address  address;
+    private Address address;
 
-    public Person(){}
+    public Person() {
+    }
+
     public Person(String firstName, String lastName, String phone, Address address) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -34,9 +36,9 @@ public class Person implements Serializable {
     public String toString() {
         return
                 "\n   firstName='" + firstName + '\'' +
-                "\n   lastName='" + lastName + '\'' +
-                 "\n   phone='" + phone + '\'' +
-                  "\n     address=" + address.toString() ;
+                        "\n   lastName='" + lastName + '\'' +
+                        "\n   phone='" + phone + '\'' +
+                        "\n     address=" + address.toString();
 
     }
 

@@ -10,34 +10,27 @@ public class LibraryMember extends Person implements Serializable {
     public LibraryMember() {
     }
 
-    @Override
-    public String toString() {
-        return  "\n   memberId='" + memberId + '\'' +
-                super.toString();
-                //checkOutRecord!=null?      "\n   checkOutRecord=" + checkOutRecord.toString() :"";
-
-    }
-
-
-
     public LibraryMember(String memberId, String firstName, String lastName, String phone, Address address) {
         super(firstName, lastName, phone, address);
         this.memberId = memberId;
-        checkOutRecord =new CheckOutRecord();
+        checkOutRecord = new CheckOutRecord();
+    }
 
-
+    @Override
+    public String toString() {
+        return "\n   memberId='" + memberId + '\'' +
+                super.toString();
     }
 
     public CheckOutRecord getCheckOutRecord() {
         return checkOutRecord;
     }
 
-    public String getMemberId() {
-        return memberId;
-    }
-
-
     public void setCheckOutRecord(CheckOutRecord checkOutRecord) {
         this.checkOutRecord = checkOutRecord;
+    }
+
+    public String getMemberId() {
+        return memberId;
     }
 }
