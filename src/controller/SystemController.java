@@ -54,40 +54,48 @@ public class SystemController {
             boolean found = false;
             BookCopy copyBook = null;
             Book book = searchBookByIsBn(isBn);
+            LibraryMember member = searchForMember(memberId);
 
-            if (book != null) {
-                copyBook = book.checkAvailable(isBn);
-                if (copyBook == null) {
-                    System.out.println("Sorry : There is no Book Copy Available ");
-                } else {
-                    LibraryMember member = dataAccess.readMemberMap().get(memberId);
-                    CheckOutRecord checkOutRecord = member.getCheckOutRecord();
-                    if (checkOutRecord == null) {
-                        checkOutRecord = new CheckOutRecord();
-                        checkOutRecord.setMemberId(memberId);
+            if (member == null) {
+
+
+                System.out.println(ANSI_RED + "Sorry : The Member Id  is not Found\n " + ANSI_RESET);
+            }
+            else {
+                if (book != null) {
+                    copyBook = book.checkAvailable(isBn);
+                    if (copyBook == null) {
+                        System.out.println("Sorry : There is no Book Copy Available ");
+                    } else {
+                //        LibraryMember member = dataAccess.readMemberMap().get(memberId);
+                        CheckOutRecord checkOutRecord = member.getCheckOutRecord();
+                        if (checkOutRecord == null) {
+                            checkOutRecord = new CheckOutRecord();
+                            checkOutRecord.setMemberId(memberId);
+                        }
+
+
+                        copyBook.setAvailable(false);
+                        CheckOutRecordEntry checkOutRecordEntry = new CheckOutRecordEntry(isBn, LocalDate.now(),
+                                null, copyBook, LocalDate.now().plusDays(book.getMaxCheckoutLength()));
+
+                        checkOutRecord.addCheckOutRecordEntry(checkOutRecordEntry);
+                        book.getBookCopies().get(book.getBookCopies().indexOf(copyBook)).setAvailable(false);
+
+
+                        dataAccess.saveNewBook(book);
+                        member.setCheckOutRecord(checkOutRecord);
+                        dataAccess.saveNewMember(member);
+
+
+                        System.out.printf(ANSI_GREEN + "Congratulations check out operation  done successfully " + "\n"
+                                + checkOutRecordEntry + ANSI_RESET);
+                        //   System.out.println("all checout records for this Member " + memberId + "\n are :- " + checkOutRecord);
                     }
 
-
-                    copyBook.setAvailable(false);
-                    CheckOutRecordEntry checkOutRecordEntry = new CheckOutRecordEntry(isBn, LocalDate.now(),
-                            null, copyBook, LocalDate.now().plusDays(book.getMaxCheckoutLength()));
-
-                    checkOutRecord.addCheckOutRecordEntry(checkOutRecordEntry);
-                    book.getBookCopies().get(book.getBookCopies().indexOf(copyBook)).setAvailable(false);
-
-
-                    dataAccess.saveNewBook(book);
-                    member.setCheckOutRecord(checkOutRecord);
-                    dataAccess.saveNewMember(member);
-
-
-                    System.out.printf(ANSI_GREEN + "Congratulations check out operation  done successfully " + "\n"
-                            + checkOutRecordEntry + ANSI_RESET);
-                    //   System.out.println("all checout records for this Member " + memberId + "\n are :- " + checkOutRecord);
+                } else {
+                    System.out.println(ANSI_RED + "Sorry : The Book is not Found \n " + ANSI_RESET);
                 }
-
-            } else {
-                System.out.println(ANSI_RED + "Sorry : The Book is not Found \n " + ANSI_RESET);
             }
 
         } catch (Exception e) {
