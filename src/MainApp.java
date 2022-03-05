@@ -8,9 +8,7 @@ import dataaccess.Auth;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Scanner;
-
 
 public class MainApp {
     public static final String ANSI_RESET = "\u001B[0m";
@@ -137,36 +135,13 @@ public class MainApp {
                                 }
 
 
-                            }
-                            // add author
-                            System.out.println("Please enter the author details. ");
-                            String firstName, lastName, city, state, street, zip, about, anotherAuthor = "yes";
-                            int telephone = -1;
-/*
-                        System.out.print("FirstName: ");
-                        firstName = in.next();
-                        System.out.print("LastName: ");
-                        lastName = in.next();
-                        System.out.print("Street: ");
-                        street = in.next();
-                        System.out.print("City: ");
-                        city = in.next();
-                        System.out.print("State: ");
-                        state = in.next();
-                        System.out.print("zip: ");
-                        zip = in.next();
-                        System.out.print("telephone: ");
-                        telephone = in.next();
-                        System.out.print("credentials: ");
-                        about = in.next();
+                        }
+                        // add author
+                        System.out.println("Please enter the author details. ");
+                        String firstName, lastName, city, state, street, zip, about, anotherAuthor = "yes";
+                        int telephone=-1;
 
-                       Address address=new Address(street,zip,city,state);
-                       Author author=new Author( firstName,  lastName, telephone ,  address,  about );
-                        System.out.print("Do you want one more Author ? yes ? no ?: ");
-                        authorList.add(author);
-                        anotherAuthor = in.next();
-                        */
-                            while (anotherAuthor.equalsIgnoreCase("YES")) {
+                        while (anotherAuthor.equalsIgnoreCase("YES")) {
 
                                 System.out.print("FirstName: ");
                                 firstName = in.next();
@@ -196,37 +171,8 @@ public class MainApp {
                                         System.out.println(ANSI_RED + "Sorry telephone  should from 8 to 10 digits  Type again: \": " + ANSI_RESET);
                                         continue;
                                     }
-
-
-                                }
-                            /*    try {
-
-                                    telephone = Integer.parseInt(in.next());
-                                    int x = Integer.bitCount(telephone);
-                                    if (x < 8 || x > 10) {
-
-                                        while (in.hasNext()) {
-                                            System.out.println(ANSI_RED + "Sorry telephone  should from 8 to 10 digits  Type again: " + ANSI_RESET);
-                                            try {
-                                                telephone = Integer.parseInt(in.next());
-                                                x = Integer.bitCount(telephone);
-                                                if (x >= 8 || x <= 10)
-                                                    break;
-
-
-                                            } catch (NumberFormatException e) {
-                                                System.out.println(ANSI_RED + "Sorry telephone  should from 8 to 10 digits  Type again: " + ANSI_RESET);
-                                                continue;
-                                            }
-                                        }
-                                    }
-                                }
-                                catch (NumberFormatException e) {
-                                    System.out.println(ANSI_RED + "Sorry telephone  should from 8 to 10 digits  Type again: " + ANSI_RESET);
-
                                 }
 
-                                */
                                 System.out.print("credentials: ");
                                 about = in.next();
 
@@ -255,7 +201,6 @@ public class MainApp {
 
                         memberId = in.next();
                         LibraryMember member = SystemController.searchForMember(memberId);
-
 
                         if (member != null) {
 
@@ -322,10 +267,13 @@ public class MainApp {
                     System.out.println("Enter member Id:");
                     memberId = in.next();
                     SystemController.printCheckOutRecord(memberId);
+                    break;
                 case 8://Print All Books
                     SystemController.printAllBooks();
+                    break;
                 case 9://Print All members
                     SystemController.printAllMembers();
+                    break;
                 default:
                     System.out.println("Invalid choice. Try again or enter 0 to exit.");
             }

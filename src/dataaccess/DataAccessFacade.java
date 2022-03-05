@@ -44,6 +44,23 @@ public class DataAccessFacade implements DataAccess {
 		saveToStorage(StorageType.BOOKS, books);
 	}
 
+	// Checkout
+	public void saveCheckout(String memberId , CheckOutRecord record){
+		// first read the file
+		HashMap<String, CheckOutRecord> chekOutRecordHashMap = readCheckOutRecord();
+
+		if(chekOutRecordHashMap == null)
+			chekOutRecordHashMap = new HashMap<>();
+
+		chekOutRecordHashMap.put(memberId, record);
+		saveToStorage(StorageType.CHECKOUTRECORD, chekOutRecordHashMap);
+	}
+	public HashMap<String, CheckOutRecord> readCheckOutRecord() {
+		//Returns a Map with name/value pairs being
+		//   memberID -> CheckOutRecord
+		return (HashMap<String,CheckOutRecord>) readFromStorage(StorageType.CHECKOUTRECORD);
+	}
+
 	@SuppressWarnings("unchecked")
 	public HashMap<String, LibraryMember> readMemberMap() {
 		//Returns a Map with name/value pairs being

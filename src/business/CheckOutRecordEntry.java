@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 public class CheckOutRecordEntry implements Serializable {
-    private static final long serilialVersionUID = 5147665048973262145L;
+    private static final long serialVersionUID = 5147665048973262145L;
     private String isBn;
     private LocalDate checkOutDate;
     private LocalDate actualReturnedDate;

@@ -3,7 +3,7 @@ package business;
 import java.io.Serializable;
 
 public class Address implements Serializable {
-    private static final long serilialVersionUID = 5147265048973262145L;
+    private static final long serialVersionUID = 5147265048973262145L;
     private final String street;
     private final String zip;
     private final String city;

@@ -5,12 +5,10 @@ import dataaccess.Auth;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 import dataaccess.User;
-import exceptions.SystemExceptions;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SystemController {
     public static final String ANSI_RESET = "\u001B[0m";
@@ -46,7 +44,6 @@ public class SystemController {
         System.out.printf(ANSI_GREEN + "Registration successful. You are one of %s user \n", dataAccess.readMemberMap().size() + "(s)" + ANSI_RESET);
         System.out.println(libraryMember);
         return dataAccess.readMemberMap().size();
-
     }
 
     public static void checkoutBook(String memberId, String isBn) {
@@ -82,15 +79,20 @@ public class SystemController {
                         book.getBookCopies().get(book.getBookCopies().indexOf(copyBook)).setAvailable(false);
 
 
-                        dataAccess.saveNewBook(book);
-                        member.setCheckOutRecord(checkOutRecord);
-                        dataAccess.saveNewMember(member);
+                    dataAccess.saveNewBook(book);
+                    member.setCheckOutRecord(checkOutRecord);
+                    dataAccess.saveCheckout(memberId, checkOutRecord);
+                    dataAccess.saveNewMember(member);
 
 
-                        System.out.printf(ANSI_GREEN + "Congratulations check out operation  done successfully " + "\n"
-                                + checkOutRecordEntry + ANSI_RESET);
-                        //   System.out.println("all checout records for this Member " + memberId + "\n are :- " + checkOutRecord);
-                    }
+                    System.out.printf(ANSI_GREEN +"Congratulations check out operation  done successfully " + "\n"
+                            +ANSI_RESET);
+                    System.out.println("ISBN: " + checkOutRecordEntry.getIsBn());
+                    System.out.println("Checkout Date: " + checkOutRecordEntry.getCheckOutDate());
+                    System.out.println("Copy Number: " + checkOutRecordEntry.getBookCopy().getCopyNumber());
+                    System.out.println("Due Date: " + checkOutRecordEntry.getDueDate());
+                   // System.out.println("\nAll checkout records for this Member " + memberId + "\n are :- " + checkOutRecord);
+                }
 
                 } else {
                     System.out.println(ANSI_RED + "Sorry : The Book is not Found \n " + ANSI_RESET);
@@ -106,41 +108,37 @@ public class SystemController {
     public static void addBook(String isbn, String title, int maxCheckoutLength, List<Author> authors) {
         Book book = new Book(isbn, title, maxCheckoutLength, authors);
         dataAccess.saveNewBook(book);
-        System.out.printf(ANSI_GREEN + "Booked added successfully.\n" + ANSI_RESET);
-
-       searchAndShowBook(book.getIsBn());
+        System.out.printf(ANSI_GREEN +"Book added successfully.\n"+ANSI_RESET);
+        searchAndShowBook(book.getIsBn());
 
     }
 
-    public static String searchAndShowBook(String isbn) {
+    public static void searchAndShowBook(String isbn) {
         Book book = dataAccess.readBooksMap().get(isbn);
         if (book == null) {
-            return "No book found with ISBN: " + isbn;
+            System.out.println("No book found with ISBN: " + isbn);
+            return;
         }
-        System.out.println("================||Book details for " + isbn + " ||================");
-        System.out.println("ISBN \t\t CopyNo \t\t Title \t\t CheckoutDate \t\t DueDate \t\t CheckedOutBy");
-        System.out.println("---- \t\t ------------ \t\t -------");
-        System.out.println("\n**" + book.getIsBn() + "\t\t** Title: " + book.getTitle());
-        List<CheckOutRecord> checkOutRecords = dataAccess.readMemberMap().values()
-                .stream().map(LibraryMember::getCheckOutRecord).collect(Collectors.toList());
+        System.out.println(ANSI_GREEN + "===========================||Book details for " + isbn + " ||======================================" + ANSI_RESET);
+        System.out.println("ISBN \t|\t CopyNo \t|\t Title \t|\t CheckoutDate \t|\t DueDate \t|\t CheckedOutBy");
+        System.out.println("---- \t|\t ------- \t|\t------ \t|\t------------ \t|\t ------- \t|\t ------------");
+        List<BookCopy> copies = book.getBookCopies();
+        List<CheckOutRecordEntry> entries = CheckOutRecord.getCheckoutEntriesByIsbn(book.getIsBn());
 
-        book.getBookCopies().forEach(bookCopy -> {
+        for (BookCopy copy : copies) {
+            entries.forEach(checkOutRecordEntry -> {
+                String memberId = "";
+                if (CheckOutRecord.getCheckedOutUserByIsbn(book.getIsBn(), copy.getCopyNumber()) != null) {
+                    memberId = CheckOutRecord.getCheckedOutUserByIsbn(book.getIsBn(), copy.getCopyNumber()).get();
+                }
+                if (checkOutRecordEntry.getBookCopy().getCopyNumber() == copy.getCopyNumber()) {
+                    System.out.println(copy.getIsBn() + "\t\t| \t" + copy.getCopyNumber() +
+                            "\t\t\t| \t" + book.getTitle() +
+                            "\t\t| \t" + checkOutRecordEntry.getCheckOutDate() + "\t\t| \t" + checkOutRecordEntry.getDueDate() + "\t\t| \t\t" + memberId);
+                }
+            });
+        }
 
-            CheckOutRecordEntry checkOutRecordEntries = (CheckOutRecordEntry) checkOutRecords.stream().map(CheckOutRecord::getCheckOutRecordEntries)
-                    .map(checkOutRecordEntries1 -> checkOutRecordEntries1.stream().filter(cf -> cf.getBookCopy() == bookCopy))
-                    .map(checkOutRecordEntryStream -> checkOutRecordEntryStream.
-                            anyMatch(checkOutRecordEntry -> checkOutRecordEntry.getBookCopy() == bookCopy));
-
-            System.out.println(bookCopy.getIsBn() + "\t\t" + bookCopy.getCopyNumber() + "\t\t" + book.getTitle()
-                    + "\t\t" + checkOutRecords.stream().map(CheckOutRecord::getCheckOutRecordEntries)
-                    .map(checkOutRecordEntries1 -> checkOutRecordEntries1.stream().filter(cf -> cf.getBookCopy() == bookCopy))
-                    .map(checkOutRecordEntryStream -> checkOutRecordEntryStream.
-                            anyMatch(checkOutRecordEntry -> checkOutRecordEntry.getBookCopy() == bookCopy)));
-
-        });
-        return
-                "\n** Title: " + book.getTitle() +
-                        "\n** ISBN: " + book.getIsBn();
     }
 
     public static boolean searchMemberById(String memberId) {
@@ -155,24 +153,23 @@ public class SystemController {
                     "\n** FirstName:" + member.getFirstName() +
                     "\n** LastName:" + member.getLastName());
             System.out.println("=================================================");
-            System.out.println("Choose option below for the member: ");
-            System.out.println("8 Show checkout records");
-            return true;
+            return  true;
         }
     }
 
     public static void showMemberCheckoutRecords(String memberId) {
         CheckOutRecord checkOutRecord = dataAccess.readMemberMap().get(memberId).getCheckOutRecord();
         if (checkOutRecord == null) {
-            System.out.println(ANSI_RED + "No checkout record found for member:" + memberId + "\n " + ANSI_RESET);
+            System.out.println("No checkout records found for member: " + memberId);
+            System.out.println(ANSI_RED +"No checkout record found for member:" + memberId+"\n "+ ANSI_RESET);
 
             return;
         }
+        System.out.println("ISBN \t\t CopyNumber \t\t CheckoutDate \t\t DueDate");
+        System.out.println("---- \t\t ------------ \t\t ------- \t\t -------");
         checkOutRecord.getCheckOutRecordEntries().forEach(ckrEntry -> {
-            System.out.println("ISBN \t\t CheckoutDate \t\t DueDate");
-            System.out.println("---- \t\t ------------ \t\t -------");
-            System.out.println("|" + ckrEntry.getBookCopy().getIsBn() + "| \t\t" +
-                    ckrEntry.getCheckOutDate() + "| \t\t" + ckrEntry.getDueDate());
+            System.out.println(ckrEntry.getBookCopy().getIsBn() + " \t\t\t" + ckrEntry.getBookCopy().getCopyNumber() +
+                    " \t\t \t\t" +     ckrEntry.getCheckOutDate() + " \t\t" + ckrEntry.getDueDate());
         });
     }
 
@@ -195,27 +192,35 @@ public class SystemController {
     }
 
     public static void printAllBooks() {
-        HashMap<String, Book> books = dataAccess.readBooksMap();
-        Object[] bookIsBns = books.keySet().toArray();
-
+        HashMap<String, Book>  books = dataAccess.readBooksMap();
         try {
-            if (books.size() < 1)
-                System.out.println(ANSI_RED + "Sorry : There is no books found \n " + ANSI_RESET);
-            else {
-                for (int i = 0; i < bookIsBns.length; i++) {
-                    System.out.println(books.get(bookIsBns[i]));
-                    System.out.println("-------------------\n");
+            if (books.size()<1)
+                System.out.println(ANSI_RED +"Sorry, no books found \n "+ ANSI_RESET);
+            else
+            {
+                System.out.println("Found " + books.size() + " books");
 
-                }
+                books.forEach((isbn,book) -> {
+                    System.out.println("-------------------\n");
+                    System.out.println("* ISBN: "+ isbn);
+                    System.out.println("* Title: "+ book.getTitle());
+                    System.out.println("* MaxCheckoutLength: "+ book.getMaxCheckoutLength());
+                    System.out.println("* Authors: ") ;
+                    book.getAuthors().forEach(author -> {
+                        System.out.println("\t" + author.getFirstName() + " "+ author.getLastName());
+                    });
+                    System.out.println("* Copies: ");
+                    book.getBookCopies().forEach(bookCopy -> {
+                        System.out.println("\tCopyNumber: " +bookCopy.getCopyNumber() + ", Available:  " + bookCopy.getAvailable());
+                    });
+                });
+                System.out.println("\n-------------------\n");
             }
 
         } catch (
                 Exception e) {
-            System.out.println(ANSI_RED + "Sorry Something Wrong happened " + e.getMessage() + "\n" + ANSI_RESET);
-
-
+            System.out.println(ANSI_RED +"Sorry Something Wrong happened " + e.getMessage()+"\n"+ ANSI_RESET);
         }
-
     }
     public static void printAllMembers() {
         HashMap<String, LibraryMember> members = dataAccess.readMemberMap();
@@ -223,44 +228,38 @@ public class SystemController {
 
         try {
             if (members.size() < 1)
-                System.out.println(ANSI_RED + "Sorry : There is no members found \n " + ANSI_RESET);
+                System.out.println(ANSI_RED + "Sorry, no member found \n " + ANSI_RESET);
             else {
                 for (int i = 0; i < memberIds.length; i++) {
-                    System.out.println(members.get(memberIds[i]).toString());
                     System.out.println("-------------------\n");
-
+                    System.out.println(ANSI_GREEN  + members.get(memberIds[i]).getMemberId());
+                    System.out.println("FirstName: " + members.get(memberIds[i]).getFirstName());
+                    System.out.println("LastName: " + members.get(memberIds[i]).getLastName());
+                    System.out.println("Phone: " + members.get(memberIds[i]).getPhone());
+                    System.out.println("Address: " + members.get(memberIds[i]).getAddress().toString());
                 }
+                System.out.println("-------------------\n" + ANSI_RESET);
             }
 
         } catch (
                 Exception e) {
             System.out.println(ANSI_RED + "Sorry Something Wrong happened " + e.getMessage() + "\n" + ANSI_RESET);
-
-
         }
 
     }
     public static LibraryMember searchForMember(String memberId) {
-        LibraryMember member = new LibraryMember();
         try {
             DataAccess dataAccess = new DataAccessFacade();
-
             HashMap<String, LibraryMember> mems = dataAccess.readMemberMap();
-
-            member = dataAccess.readMemberMap().get(memberId);
-
+            return dataAccess.readMemberMap().get(memberId);
         } catch (
                 Exception e) {
             System.out.println(ANSI_RED + "Sorry Something Wrong happened " + e.getMessage() + "\n" + ANSI_RESET);
-
+            return  null;
         }
-        return member;
     }
-
     public static void printCheckOutRecord(String memberId) {
         try {
-            boolean found = false;
-
             LibraryMember member = searchForMember(memberId);
 
             if (member != null) {
@@ -273,7 +272,6 @@ public class SystemController {
         } catch (Exception e) {
             System.out.println(ANSI_RED + "Sorry Something Wrong happened " + e.getMessage() + "\n" + ANSI_RESET);
         }
-
     }
 
     public static void addBookCopy(String isBn) {
@@ -285,10 +283,7 @@ public class SystemController {
                 System.out.printf(ANSI_GREEN + "Congratulations add copy operation  done successfully " + "\n " +
                         "now the book details are :- " + book + ANSI_RESET);
 
-
             } else {
-
-
                 System.out.println(ANSI_RED + "Sorry : The Book is not Found \n " + ANSI_RESET);
             }
         } catch (Exception e) {

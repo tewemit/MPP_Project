@@ -40,4 +40,8 @@ public class BookCopy implements Serializable {
                 "\n   isAvailable=" + isAvailable
                 ;
     }
+
+    public boolean getAvailable() {
+        return this.isAvailable;
+    }
 }
