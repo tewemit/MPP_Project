@@ -30,7 +30,15 @@ public class Person implements Serializable {
         return phone;
     }
 
+    @Override
+    public String toString() {
+        return
+                "\n   firstName='" + firstName + '\'' +
+                "\n   lastName='" + lastName + '\'' +
+                 "\n   phone='" + phone + '\'' +
+                  "\n     address=" + address.toString() ;
 
+    }
 
     public String getFirstName() {
         return firstName;
