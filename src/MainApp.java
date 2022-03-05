@@ -274,31 +274,26 @@ public class MainApp {
                             state = in.next();
                             System.out.print("zip: ");
                             zip = in.next();
+                            System.out.print("telephone: ");
+                            while (in.hasNext()) {
+                                try {
 
-                            try {
-                                System.out.print("telephone: ");
-                                telephone = Integer.parseInt(in.next());
-                                int x = Integer.bitCount(telephone);
-                                if (x < 8 || x > 10) {
-                                    while (in.hasNext()) {
-                                        try {
-                                            telephone = Integer.parseInt(in.next());
-                                             x = Integer.bitCount(telephone);
-                                            if (x >= 8 || x <= 10)
-                                                break;
-
-
-                                        } catch (NumberFormatException e) {
-                                            System.out.println(ANSI_RED + "Sorry telephone  should from 8 to 10 digits  Type again: " + ANSI_RESET);
-                                            continue;
-                                        }
+                                    telephone = Integer.parseInt(in.next());
+                                    String str=String.valueOf(telephone);
+                                    int l=String.valueOf(telephone).length();
+                                    if (l>=8 &&l<=10) {
+                                        break;
+                                    } else {
+                                        System.out.println(ANSI_RED + "Sorry telephone  should from 8 to 10 digits  Type again: \" " + ANSI_RESET);
+                                        System.out.print("telephone: ");
                                     }
+                                } catch (NumberFormatException e) {
+                                    System.out.println(ANSI_RED + "Sorry telephone  should from 8 to 10 digits  Type again: \": " + ANSI_RESET);
+                                    continue;
                                 }
-                            }
-                         catch (NumberFormatException e) {
-                            System.out.println(ANSI_RED + "Sorry telephone  should from 8 to 10 digits  Type again: " + ANSI_RESET);
 
-                        }
+
+                            }
                             int totalMembers = SystemController.addLibraryMember(memberId, firstName, lastName, street, city, state, zip, String.valueOf(telephone));
                             //  System.out.println("----------------------------------------------------");
                             //   System.out.printf(ANSI_GREEN + "Registration successful. You are one of %s user \n", totalMembers + "(s)" + ANSI_RESET);

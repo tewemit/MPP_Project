@@ -282,7 +282,8 @@ public class SystemController {
             if (book != null) {
                 book.addCopy();
                 dataAccess.saveNewBook(book);
-                System.out.printf(ANSI_GREEN + "Congratulations add copy operation  done successfully " + "\n now the book details are :- " + book + ANSI_RESET);
+                System.out.printf(ANSI_GREEN + "Congratulations add copy operation  done successfully " + "\n " +
+                        "now the book details are :- " + book + ANSI_RESET);
 
 
             } else {
